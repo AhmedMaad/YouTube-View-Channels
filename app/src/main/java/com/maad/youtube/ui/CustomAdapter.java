@@ -1,9 +1,10 @@
-package com.maad.youtube.data;
+package com.maad.youtube.ui;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ItemViewHo
 
     private Activity activity;
     private ArrayList<YouTubeChannelModel.ChannelItemModel> channelModels;
+    private OnClickListener onClickListener;
+
+    public interface OnClickListener {
+        void onClick(int i);
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
     public CustomAdapter(Activity activity, ArrayList<YouTubeChannelModel.ChannelItemModel> channelModels) {
         this.activity = activity;
@@ -31,7 +41,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ItemViewHo
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.channel_list_item, parent, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, onClickListener);
     }
 
     @Override
@@ -53,11 +63,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ItemViewHo
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView channelNameTV;
         private ImageView channelThumbnailIV;
+        private Button subscribeBtn;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        public ItemViewHolder(@NonNull View itemView, OnClickListener onClickListener) {
             super(itemView);
             channelNameTV = itemView.findViewById(R.id.tv_channel);
             channelThumbnailIV = itemView.findViewById(R.id.iv_channel);
+            subscribeBtn = itemView.findViewById(R.id.btn_subscribe);
+
+            subscribeBtn.setOnClickListener(view -> {
+                int position = getAdapterPosition();
+                onClickListener.onClick(position);
+            });
         }
+
     }
 }
