@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">YouTube View Channels</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="channel_thumbnail_cd">Image for channel thumbnail</string>
+</resources>
